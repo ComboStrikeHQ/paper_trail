@@ -65,6 +65,10 @@ module PaperTrail
                   version.item || klass.unscoped.where(find_cond).first || klass.new
                 end
 
+        if version.event == 'destroy'
+          model.instance_variable_set('@destroyed', true)
+        end
+
         if options[:unversioned_attributes] == :nil && !model.new_record?
           init_unversioned_attrs(attrs, model)
         end
